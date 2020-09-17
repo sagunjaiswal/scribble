@@ -3,18 +3,22 @@ import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { v4 as uuid } from "uuid";
 import { connect } from "react-redux";
-import { getItems } from "../actions/itemActions";
+import { getItems, deleteItem } from "../actions/itemActions";
 import PropTypes from "prop-types";
 
 class List extends Component {
   componentDidMount() {
     this.props.getItems();
   }
+  onDeleteClick = (id) => {
+    this.props.deleteItem(id);
+  };
+
   render() {
     const { items } = this.props.item;
     return (
       <Container>
-        <Button
+        {/* <Button
           color="dark"
           style={{ marginBottom: "2rem" }}
           onClick={() => {
@@ -27,7 +31,7 @@ class List extends Component {
           }}
         >
           Add Item
-        </Button>
+        </Button> */}
         <ListGroup>
           <TransitionGroup className="list">
             {items.map(({ id, note }) => (
@@ -37,11 +41,7 @@ class List extends Component {
                     className="remove-btn"
                     color="danger"
                     size="sm"
-                    onClick={() => {
-                      this.setState((state) => ({
-                        items: state.items.filter((item) => item.id !== id),
-                      }));
-                    }}
+                    onClick={this.onDeleteClick.bind(this, id)}
                   >
                     &times;
                   </Button>
@@ -64,4 +64,4 @@ List.propTypes = {
 const mapStateToProps = (state) => ({
   item: state.item,
 });
-export default connect(mapStateToProps, { getItems })(List);
+export default connect(mapStateToProps, { getItems, deleteItem })(List);
