@@ -54,7 +54,7 @@ class ItemModal extends Component {
                 <Input
                   type="text"
                   name="note"
-                  id="item"
+                  id="note"
                   placeholder="Add to notes"
                   onChange={this.onChange}
                 />
